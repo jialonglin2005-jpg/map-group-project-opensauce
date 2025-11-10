@@ -18,3 +18,15 @@ class AppAssets {
   // Define assets
   static const logo = '' ; 
 }
+
+class KTextStyle {
+  static const TextStyle resetPasswordTitle = TextStyle(
+    fontWeight: FontWeight.bold,
+    fontSize: 30.0,
+  );
+
+  static const TextStyle resetPasswordDescription = TextStyle(
+    fontWeight: FontWeight.w300,
+    fontSize: 15.0,
+  );
+}

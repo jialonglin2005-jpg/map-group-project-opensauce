@@ -10,6 +10,16 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(),
+      body: Container(
+        padding: EdgeInsets.all(20.0),
+        child: Column(
+          children: [
+            Text("Reset Password",style: TextStyle(fontWeight: FontWeight.bold),)
+          ],
+        ),
+      )
+    );
   }
 }
