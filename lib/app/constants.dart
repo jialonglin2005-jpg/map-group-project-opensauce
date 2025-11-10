@@ -30,3 +30,13 @@ class KTextStyle {
     fontSize: 15.0,
   );
 }
+
+class Space{
+  static const smallHorizontal = SizedBox(height: 5.0,);
+  static const mediumHorizontal = SizedBox(height: 15.0,);
+  static const largeHorizontal = SizedBox(height: 50.0,);
+  static const smallVertical = SizedBox(width: 5.0,);
+}
+
+
+

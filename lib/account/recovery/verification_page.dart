@@ -1,4 +1,3 @@
-import 'package:easyrent/data/constants/constants.dart';
 import 'package:easyrent/views/widgets/resetPassword/reset_password_title.dart';
 import 'package:flutter/material.dart';
 
