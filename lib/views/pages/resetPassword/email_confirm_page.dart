@@ -1,14 +1,15 @@
+import 'package:easyrent/views/pages/resetPassword/verification_page.dart';
 import 'package:flutter/material.dart';
 
 // reset password page (Lee Hom)
-class ResetpasswordPage extends StatefulWidget {
-  const ResetpasswordPage({super.key});
+class EmailConfirmPage extends StatefulWidget {
+  const EmailConfirmPage({super.key});
 
   @override
-  State<ResetpasswordPage> createState() => _ResetpasswordPageState();
+  State<EmailConfirmPage> createState() => _EmailConfirmPageState();
 }
 
-class _ResetpasswordPageState extends State<ResetpasswordPage> {
+class _EmailConfirmPageState extends State<EmailConfirmPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,16 +21,26 @@ class _ResetpasswordPageState extends State<ResetpasswordPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
+              // Wrap up
               SizedBox(
                 width: double.infinity,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Reset Password",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30.0),),
-                    SizedBox(height: 20.0,),
+                    Text(
+                      "Reset Password",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30.0,
+                      ),
+                    ),
+                    SizedBox(height: 20.0),
                     Text(
                       "Please enter the email that you register with. We will send you a 6-digit code",
-                      style: TextStyle(fontWeight: FontWeight.w200),
+                      style: TextStyle(
+                        fontWeight: FontWeight.w300,
+                        fontSize: 15.0,
+                      ),
                     ),
                   ],
                 ),
@@ -52,7 +63,17 @@ class _ResetpasswordPageState extends State<ResetpasswordPage> {
                   SizedBox(
                     width: double.infinity,
                     child: FilledButton(
-                      onPressed: () {},
+                      // Color become gold after user finish enter their email, or else it will become gray
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return VerificationPage();
+                            },
+                          ),
+                        );
+                      },
                       style: ButtonStyle(
                         backgroundColor: WidgetStatePropertyAll(
                           const Color(0xFFF8BE17),
@@ -62,9 +83,7 @@ class _ResetpasswordPageState extends State<ResetpasswordPage> {
                           TextStyle(fontSize: 20.0),
                         ),
                         padding: WidgetStatePropertyAll(
-                          const EdgeInsets.symmetric(
-                            vertical: 15.0,
-                          ),
+                          const EdgeInsets.symmetric(vertical: 15.0),
                         ),
                         shape: WidgetStatePropertyAll(
                           RoundedRectangleBorder(
@@ -75,10 +94,20 @@ class _ResetpasswordPageState extends State<ResetpasswordPage> {
                       child: const Text("Confirm"),
                     ),
                   ),
-                  SizedBox(height: 20.0,),
-                  TextButton(onPressed: () {
-                    // Navigator.pop()
-                  }, child: const Text("Back to Login Page",style: TextStyle(fontSize: 15.0,color: Colors.black54,decoration: TextDecoration.underline),))
+                  SizedBox(height: 20.0),
+                  TextButton(
+                    onPressed: () {
+                      // Navigator.pop()
+                    },
+                    child: const Text(
+                      "Back to Login Page",
+                      style: TextStyle(
+                        fontSize: 15.0,
+                        color: Colors.black54,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ],
