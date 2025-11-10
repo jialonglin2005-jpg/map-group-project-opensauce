@@ -1,6 +1,5 @@
-import 'package:easyrent/views/pages/onboarding_page.dart';
-import 'package:easyrent/views/pages/resetPassword/email_confirm_page.dart';
 import 'package:easyrent/views/widgets/resetPassword/pinput_example.dart';
+import 'package:easyrent/views/pages/authentication/onboarding_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {

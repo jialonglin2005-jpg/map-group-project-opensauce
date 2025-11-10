@@ -5,6 +5,20 @@ class AppColors {
   
 }
 
+class AppString {
+  // Define text
+  static const appName = 'EastRent';
+}
+
+class AppSize {
+  // Define Padding, fontSize 
+}
+
+class AppAssets {
+  // Define assets
+  static const logo = '' ; 
+}
+
 class KTextStyle {
   static const TextStyle resetPasswordTitle = TextStyle(
     fontWeight: FontWeight.bold,

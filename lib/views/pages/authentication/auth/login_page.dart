@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-// login + register page (Kai Bin)
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
