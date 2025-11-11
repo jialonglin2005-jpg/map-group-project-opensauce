@@ -1,5 +1,5 @@
-import 'package:easyrent/views/widgets/resetPassword/pinput_example.dart';
 import 'package:flutter/material.dart';
+import '../account/registration/renter_registration.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,18 +13,50 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.teal, 
-          brightness: Brightness.light
-          )
+          seedColor: const Color(0xFF800000), // Maroon color
+        ),
       ),
-      home: PinputExample(),
+      home: const SimpleStartPage(),
+    );
+  }
+}
+
+class SimpleStartPage extends StatefulWidget {
+  const SimpleStartPage({super.key});
+
+  @override
+  State<SimpleStartPage> createState() => _SimpleStartPageState();
+}
+
+class _SimpleStartPageState extends State<SimpleStartPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const RenterRegistrationPage(),
+              ),
+            );
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color(0xFF800000), // Maroon color
+            foregroundColor: Colors.white, // White text color
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          ),
+          child: const Text('Switch to Renter'),
+        ),
+      ),
     );
   }
 }
