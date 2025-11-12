@@ -1,4 +1,5 @@
 import 'package:easyrent/account/recovery/email_confirm_page.dart';
+import 'package:easyrent/account/recovery/onboarding_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -24,7 +25,7 @@ class _MyAppState extends State<MyApp> {
           brightness: Brightness.light
           )
       ),
-      home: EmailConfirmPage(),
+      home: OnboardingPage(),
     );
   }
 }
