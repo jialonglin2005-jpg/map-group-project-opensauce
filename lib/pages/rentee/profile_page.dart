@@ -1,10 +1,9 @@
+import 'package:easyrent/account/registration/renter_registration.dart';
+import 'package:easyrent/pages/rentee/complete_profile.dart';
 import '../../dbase/dummy.dart';
 import '../../views/widgets/rentee/rentee_bottom_navbar.dart';
 import 'my_profile_page.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
-
 
 // rentee profile page (Zhen Yang)
 class RenteeprofilePage extends StatefulWidget {
@@ -29,13 +28,13 @@ class _RenteeprofilePageState extends State<RenteeprofilePage> {
     return Scaffold(
       backgroundColor: Colors.white,
 
-      // --- BODY ---
+      // BODY
       body: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.all(20),
           child: Column(
             children: [
-              // --- PROFILE IMAGE ---
+              // PROFILE IMAGE
               Stack(
                 children: [
                   SizedBox(
@@ -56,24 +55,26 @@ class _RenteeprofilePageState extends State<RenteeprofilePage> {
                 user1.name,
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
-              Text(
-                user1.role,
-                style: TextStyle(color: Colors.grey),
-              ),
+              Text(user1.role, style: TextStyle(color: Colors.grey)),
               const SizedBox(height: 20),
 
-              // --- SWITCH BUTTON ---
+              // SWITCH BUTTON
               SizedBox(
                 width: 200,
                 child: ElevatedButton(
                   onPressed: () {
-                    ScaffoldMessenger.of(
+                    Navigator.push(
                       context,
-                    ).showSnackBar(const SnackBar(content: Text("Switch")));
+                      MaterialPageRoute(
+                        builder: (context) => const RenteeprofilePage(),
+                      ),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xFFF8BE17),
                     shape: const StadiumBorder(),
+                    elevation: 6,
+                    shadowColor: Colors.grey.withOpacity(0.5),
                   ),
                   child: const Text(
                     "Switch to Renter",
@@ -83,10 +84,47 @@ class _RenteeprofilePageState extends State<RenteeprofilePage> {
               ),
 
               const SizedBox(height: 30),
-              const Divider(),
-              const SizedBox(height: 10),
 
-              // --- MENU SECTIONS ---
+              // BECOME A RENTER BUTTON
+              SizedBox(
+                width: 250, // bigger than switch button
+                height: 50,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const RenterRegistrationPage(),
+                      ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(
+                      0xFF5C001F,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                        16,
+                      ),
+                    ),
+                    elevation: 6,
+                    shadowColor: Colors.grey.withOpacity(0.5),
+                  ),
+                  child: const Text(
+                    "Become a Renter",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 30),
+              const Divider(),
+
+              // MENU SECTIONS
               ProfileMenuWidget(
                 title: "My Profile",
                 icon: Icons.person,
@@ -144,7 +182,7 @@ class _RenteeprofilePageState extends State<RenteeprofilePage> {
         ),
       ),
 
-      // --- BOTTOM NAVIGATION BAR ---
+      //BOTTOM NAVIGATION BAR
       bottomNavigationBar: RenteeBottomNavBar(
         selectedIndex: _selectedIndex,
         onItemTapped: _onItemTapped,
@@ -153,7 +191,7 @@ class _RenteeprofilePageState extends State<RenteeprofilePage> {
   }
 }
 
-// --- SIMPLE REUSABLE MENU WIDGET ---
+// REUSABLE MENU WIDGET
 class ProfileMenuWidget extends StatelessWidget {
   final String title;
   final IconData icon;
@@ -180,3 +218,5 @@ class ProfileMenuWidget extends StatelessWidget {
     );
   }
 }
+
+//log out route

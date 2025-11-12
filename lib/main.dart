@@ -1,3 +1,4 @@
+import 'package:easyrent/pages/rentee/profile_page.dart';
 import 'package:easyrent/views/widgets/resetPassword/pinput_example.dart';
 import 'package:flutter/material.dart';
 
@@ -24,7 +25,7 @@ class _MyAppState extends State<MyApp> {
           brightness: Brightness.light
           )
       ),
-      home: PinputExample(),
+      home: RenteeprofilePage(),
     );
   }
 }

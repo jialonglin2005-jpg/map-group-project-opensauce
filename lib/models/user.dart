@@ -1,17 +1,21 @@
 class User {
-  final String name;
-  final String email;
-  final String phone;
-  final String role;
-  final String profileImage;
-  final String address;
+  String name;
+  String email;
+  String phone;
+  String address;
+  String profileImage;
+  String faculty;
+
+  String role; 
+
 
   User({
     required this.name,
     required this.email,
     required this.phone,
-    required this.role,
-    required this.profileImage,
     required this.address,
+    required this.profileImage,
+    required this.faculty,
+    this.role = 'rentee',
   });
 }

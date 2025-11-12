@@ -1,3 +1,4 @@
+import 'package:easyrent/pages/rentee/edit_profile.dart';
 import 'package:flutter/material.dart';
 import '../../dbase/dummy.dart';
 
@@ -9,7 +10,7 @@ class MyProfilePage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
 
-      // --- APP BAR ---
+      // APP BAR
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
@@ -24,12 +25,12 @@ class MyProfilePage extends StatelessWidget {
         centerTitle: true,
       ),
 
-      // --- BODY ---
+      // BODY 
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            // --- PROFILE IMAGE ---
+            // PROFILE IMAGE
             Stack(
               children: [
                 SizedBox(
@@ -46,32 +47,42 @@ class MyProfilePage extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 15),
-            const Text(
-              "Zhen Yang",
+            Text(
+              user1.name,
               style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
-            const Text(
-              "Rentee • UTM Student",
+            Text(
+              user1.role,
               style: TextStyle(color: Colors.grey),
             ),
             const SizedBox(height: 20),
 
-            // --- INFO PLACEHOLDERS ---
+            // INFO PLACEHOLDERS
+            InfoRow(label: "Name", value: user1.name),
             InfoRow(label: "Email", value: user1.email),
             InfoRow(label: "Phone", value: user1.phone),
             InfoRow(label: "Address", value: user1.address),
-            InfoRow(label: "0", value: ""),
+            InfoRow(label: "Faculty", value: user1.faculty),
 
-            // --- EDIT BUTTON ---
+            // EDIT BUTTON
             const SizedBox(height: 20),
             SizedBox(
               width: 200,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const EditProfilePage(),
+                      ),
+                    );
+                  },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFFF8BE17),
                   shape: const StadiumBorder(),
                   padding: const EdgeInsets.symmetric(vertical: 15),
+                  elevation: 6,
+                  shadowColor: Colors.grey.withOpacity(0.5),
                 ),
                 child: const Text(
                   "Edit",
@@ -86,7 +97,7 @@ class MyProfilePage extends StatelessWidget {
   }
 }
 
-// --- SIMPLE INFO ROW WIDGET ---
+// INFO ROW
 class InfoRow extends StatelessWidget {
   final String label;
   final String value;
@@ -107,3 +118,5 @@ class InfoRow extends StatelessWidget {
     );
   }
 }
+
+
