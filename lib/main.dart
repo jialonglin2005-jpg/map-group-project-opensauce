@@ -22,7 +22,7 @@ class _MyAppState extends State<MyApp> {
           seedColor: const Color(0xFF800000), // Maroon color
         ),
       ),
-      home: const SimpleStartPage(),
+      home: OnboardingPage(),
     );
   }
 }
