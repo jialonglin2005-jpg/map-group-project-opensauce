@@ -1,3 +1,4 @@
+import 'package:easyrent/account/recovery/email_confirm_page.dart';
 import 'package:easyrent/pages/rentee/complete_profile.dart';
 import 'package:flutter/material.dart';
 import '../../pages/rentee/profile_page.dart';
@@ -22,9 +23,9 @@ class _LoginPageState extends State<LoginPage> {
 
   void _login() {
     if (_formKey.currentState!.validate()) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Login successful")),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text("Login successful")));
     }
     Navigator.pushReplacement(
       context,
@@ -46,16 +47,13 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   Lottie.asset(
                     'assets/lotties/Logo_Loading.json',
-                    width: 800, 
+                    width: 800,
                     height: 100,
                   ),
                   const SizedBox(height: 20),
                   const Text(
                     "Welcome to EasyRent",
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.grey,
-                    ),
+                    style: TextStyle(fontSize: 20, color: Colors.grey),
                   ),
                   const SizedBox(height: 8),
                   const Text(
@@ -161,9 +159,11 @@ class _LoginPageState extends State<LoginPage> {
                       hintText: "Enter your password",
                       prefixIcon: const Icon(Icons.lock_outline),
                       suffixIcon: IconButton(
-                        icon: Icon(_isPasswordVisible
-                            ? Icons.visibility
-                            : Icons.visibility_off),
+                        icon: Icon(
+                          _isPasswordVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                        ),
                         onPressed: () {
                           setState(() {
                             _isPasswordVisible = !_isPasswordVisible;
@@ -255,16 +255,12 @@ class _LoginPageState extends State<LoginPage> {
 
             Row(
               children: const [
-                Expanded(
-                  child: Divider(thickness: 1, color: Colors.grey),
-                ),
+                Expanded(child: Divider(thickness: 1, color: Colors.grey)),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10),
                   child: Text("Or login with"),
                 ),
-                Expanded(
-                  child: Divider(thickness: 1, color: Colors.grey),
-                ),
+                Expanded(child: Divider(thickness: 1, color: Colors.grey)),
               ],
             ),
             const SizedBox(height: 10),
