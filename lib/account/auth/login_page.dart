@@ -1,6 +1,7 @@
 import 'package:easyrent/pages/rentee/complete_profile.dart';
 import 'package:flutter/material.dart';
 import '../../pages/rentee/profile_page.dart';
+import '../recovery/email_confirm_page.dart';
 import '../registration/registration.dart';
 import 'package:lottie/lottie.dart';
 
@@ -206,7 +207,14 @@ class _LoginPageState extends State<LoginPage> {
                         ],
                       ),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const EmailConfirmPage(),
+                            ),
+                          );
+                        },
                         child: const Text(
                           "Forgot Password?",
                           style: TextStyle(
