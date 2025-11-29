@@ -1,9 +1,11 @@
+import 'package:easyrent/features/rentee/renting_status/presentation/pages/renting_status_page.dart';
+import 'package:easyrent/features/rentee/wishlist/presentation/page/wishlist_page.dart';
 import 'package:flutter/material.dart';
-import '../account/registration/renter_registration.dart';
-import 'account/recovery/onboarding_page.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'features/account/registration/renter_registration.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(ProviderScope(child: const MyApp()));
 }
 
 class MyApp extends StatefulWidget {
@@ -24,7 +26,7 @@ class _MyAppState extends State<MyApp> {
           seedColor: const Color(0xFF800000), // Maroon color
         ),
       ),
-      home: OnboardingPage(),
+      home: WishlistPage(),
     );
   }
 }
