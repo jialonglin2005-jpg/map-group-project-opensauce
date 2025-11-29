@@ -35,7 +35,7 @@ class _VerificationPageState extends State<VerificationPage> {
               codeController: _verificationController,
               onCodeCompleted: (code) {
                 setState(() {
-                  print("Verfication Code is ${code}");
+                  print("Verfication Code is $code");
                   _enteredCode=code;
                   _isComplete = true;
                 });

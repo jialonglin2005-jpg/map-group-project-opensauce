@@ -1,3 +1,4 @@
+import 'package:easyrent/pages/renter/listing.dart';
 import 'package:flutter/material.dart';
 import '../account/registration/renter_registration.dart';
 
@@ -9,20 +10,16 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'EasyRent App',
+      debugShowCheckedModeBanner: false, 
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF800000), // Maroon color
+          seedColor: const Color(0xFF800000), 
         ),
       ),
-      home: OnboardingPage(),
+      home: const RenterListingPage(), 
     );
   }
 }
@@ -50,8 +47,8 @@ class _SimpleStartPageState extends State<SimpleStartPage> {
             );
           },
           style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFF800000), // Maroon color
-            foregroundColor: Colors.white, // White text color
+            backgroundColor: const Color(0xFF800000),
+            foregroundColor: Colors.white,
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           ),
           child: const Text('Switch to Renter'),
