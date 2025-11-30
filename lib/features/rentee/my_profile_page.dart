@@ -1,4 +1,4 @@
-import 'package:easyrent/pages/rentee/edit_profile.dart';
+import 'package:easyrent/features/rentee/edit_profile.dart';
 import 'package:flutter/material.dart';
 import '../../dbase/dummy.dart';
 
@@ -25,7 +25,7 @@ class MyProfilePage extends StatelessWidget {
         centerTitle: true,
       ),
 
-      // BODY 
+      // BODY
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -51,10 +51,7 @@ class MyProfilePage extends StatelessWidget {
               user1.name,
               style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
-            Text(
-              user1.role,
-              style: TextStyle(color: Colors.grey),
-            ),
+            Text(user1.role, style: TextStyle(color: Colors.grey)),
             const SizedBox(height: 20),
 
             // INFO PLACEHOLDERS
@@ -70,13 +67,13 @@ class MyProfilePage extends StatelessWidget {
               width: 200,
               child: ElevatedButton(
                 onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const EditProfilePage(),
-                      ),
-                    );
-                  },
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const EditProfilePage(),
+                    ),
+                  );
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFFF8BE17),
                   shape: const StadiumBorder(),
@@ -118,5 +115,3 @@ class InfoRow extends StatelessWidget {
     );
   }
 }
-
-

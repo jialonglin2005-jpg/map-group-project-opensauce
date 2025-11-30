@@ -1,7 +1,7 @@
 import 'package:easyrent/account/registration/renter_registration.dart';
-import 'package:easyrent/pages/rentee/complete_profile.dart';
+import 'package:easyrent/features/rentee/complete_profile.dart';
 import '../../dbase/dummy.dart';
-import '../../views/widgets/rentee/rentee_bottom_navbar.dart';
+import 'homePage/rentee_bottom_navbar.dart';
 import 'my_profile_page.dart';
 import 'package:flutter/material.dart';
 
@@ -74,7 +74,7 @@ class _RenteeprofilePageState extends State<RenteeprofilePage> {
                     backgroundColor: Color(0xFFF8BE17),
                     shape: const StadiumBorder(),
                     elevation: 6,
-                    shadowColor: Colors.grey.withOpacity(0.5),
+                    shadowColor: Colors.grey.withValues(alpha: 0.5),
                   ),
                   child: const Text(
                     "Switch to Renter",
@@ -99,16 +99,12 @@ class _RenteeprofilePageState extends State<RenteeprofilePage> {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(
-                      0xFF5C001F,
-                    ),
+                    backgroundColor: const Color(0xFF5C001F),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(
-                        16,
-                      ),
+                      borderRadius: BorderRadius.circular(16),
                     ),
                     elevation: 6,
-                    shadowColor: Colors.grey.withOpacity(0.5),
+                    shadowColor: Colors.grey.withValues(alpha: 0.5),
                   ),
                   child: const Text(
                     "Become a Renter",
@@ -183,9 +179,9 @@ class _RenteeprofilePageState extends State<RenteeprofilePage> {
       ),
 
       //BOTTOM NAVIGATION BAR
-      bottomNavigationBar: RenteeBottomNavBar(
-        selectedIndex: _selectedIndex,
-        onItemTapped: _onItemTapped,
+      bottomNavigationBar: NavbarWidget(
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
       ),
     );
   }

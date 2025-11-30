@@ -1,4 +1,4 @@
-import 'package:easyrent/pages/rentee/profile_page.dart';
+import 'package:easyrent/features/rentee/profile_page.dart';
 import 'package:flutter/material.dart';
 import '../../dbase/dummy.dart';
 
@@ -56,10 +56,7 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
                   height: 120,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(100),
-                    child: Image.network(
-                      user1.profileImage,
-                      fit: BoxFit.cover,
-                    ),
+                    child: Image.network(user1.profileImage, fit: BoxFit.cover),
                   ),
                 ),
                 Positioned(
@@ -85,10 +82,7 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
               user1.name,
               style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
-            Text(
-              user1.role,
-              style: const TextStyle(color: Colors.grey),
-            ),
+            Text(user1.role, style: const TextStyle(color: Colors.grey)),
             const SizedBox(height: 20),
 
             // Editable info rows
