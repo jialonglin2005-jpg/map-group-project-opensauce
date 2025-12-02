@@ -1,7 +1,7 @@
 import 'package:easyrent/pages/rentee/profile_page.dart';
 import 'package:flutter/material.dart';
 import '../../models/renter_item.dart';
-import '../../dbase/dummy.dart';
+import '../../dbase/item.dart';
 import '../../views/widgets/renter/renter_navbar.dart';
 import 'add_item.dart';
 import 'renter_item_detail.dart';
