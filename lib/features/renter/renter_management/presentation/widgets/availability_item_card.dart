@@ -7,6 +7,7 @@ class AvailabilityItemCard extends StatelessWidget {
   final VoidCallback onAvailable;
   final VoidCallback onHold;
 
+
   const AvailabilityItemCard({
     super.key,
     required this.title,
@@ -14,6 +15,7 @@ class AvailabilityItemCard extends StatelessWidget {
     required this.onAvailable,
     required this.onHold,
   });
+
 
   @override
   Widget build(BuildContext context) {
@@ -26,14 +28,18 @@ class AvailabilityItemCard extends StatelessWidget {
           children: [
             Image.asset(imageUrl, height: 80),
 
+
             const SizedBox(height: 10),
+
 
             Text(
               title,
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
 
+
             const SizedBox(height: 10),
+
 
             Row(
               children: [
@@ -48,7 +54,9 @@ class AvailabilityItemCard extends StatelessWidget {
                   ),
                 ),
 
+
                 const SizedBox(width: 10),
+
 
                 Expanded(
                   child: ElevatedButton(

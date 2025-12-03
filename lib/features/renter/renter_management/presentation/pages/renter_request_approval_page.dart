@@ -31,14 +31,13 @@ class RenterRequestApprovalPage extends StatelessWidget {
               title: item.name,
               subtitle: "${item.price} | ${item.rentalInfo}",
               imageUrl: item.imageUrl,
-
-              // APPROVE BUTTON
+              status: item.status, // <-- NEW
+              
               onApprove: () {
                 notifier.approveItem(item.id);
                 _showApproveDialog(context);
               },
 
-              // REJECT BUTTON
               onReject: () {
                 notifier.rejectItem(item.id);
                 _showNotApproveDialog(context);
