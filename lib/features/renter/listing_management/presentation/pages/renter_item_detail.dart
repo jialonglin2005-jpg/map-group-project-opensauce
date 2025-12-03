@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../../renter_management/domain/entities/item_entity.dart';
+import '../../application/notifier/listing_notifier.dart';
 import 'edit_item.dart';
 
 class RenterItemDetail extends StatefulWidget {
@@ -13,6 +15,8 @@ class RenterItemDetail extends StatefulWidget {
 
 class _RenterItemDetailState extends State<RenterItemDetail> {
   int _currentImageIndex = 0;
+  
+  final PageController _pageController = PageController();
 
   // --- DELETE CONFIRMATION ---
   void _confirmDelete() {
@@ -28,9 +32,11 @@ class _RenterItemDetailState extends State<RenterItemDetail> {
           ),
           TextButton(
             onPressed: () {
-              // TODO: Call Notifier.deleteItem(widget.item.id) here later
-              Navigator.pop(ctx); // Close dialog
-              Navigator.pop(context); // Go back to Listing Page
+              Provider.of<ListingNotifier>(context, listen: false)
+                  .deleteItem(widget.item.id);
+              
+              Navigator.pop(ctx); 
+              Navigator.pop(context); 
             },
             child: const Text("Delete", style: TextStyle(color: Colors.red)),
           ),
@@ -39,16 +45,28 @@ class _RenterItemDetailState extends State<RenterItemDetail> {
     );
   }
 
+  void _movePage(int delta) {
+    _pageController.animateToPage(
+      _currentImageIndex + delta,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    // 3. PARSE PRICE SAFELY (String -> Double)
-    final double priceVal = double.tryParse(widget.item.price) ?? 0.0;
+    final state = Provider.of<ListingNotifier>(context).state;
+    
+    final ItemEntity currentItem = state.myItems.firstWhere(
+      (element) => element.id == widget.item.id,
+      orElse: () => widget.item,
+    );
 
-    // 4. PREPARE IMAGES (Handle case where additionalImages might be empty)
-    // If additionalImages has items, use them. Otherwise, make a list with just the main image.
-    final List<String> displayImages = widget.item.additionalImages.isNotEmpty
-        ? widget.item.additionalImages
-        : [widget.item.imageUrl];
+    final double priceVal = double.tryParse(currentItem.price) ?? 0.0;
+
+    final List<String> displayImages = currentItem.additionalImages.isNotEmpty
+        ? currentItem.additionalImages
+        : [currentItem.imageUrl];
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -77,6 +95,7 @@ class _RenterItemDetailState extends State<RenterItemDetail> {
             
             // --- IMAGE CAROUSEL ---
             Stack(
+              alignment: Alignment.center,
               children: [
                 Container(
                   height: 300,
@@ -88,6 +107,7 @@ class _RenterItemDetailState extends State<RenterItemDetail> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
                     child: PageView.builder(
+                      controller: _pageController,
                       itemCount: displayImages.length,
                       onPageChanged: (index) {
                         setState(() {
@@ -97,7 +117,7 @@ class _RenterItemDetailState extends State<RenterItemDetail> {
                       itemBuilder: (context, index) {
                         return Image.network(
                           displayImages[index],
-                          fit: BoxFit.contain, // Fixed zoom issue
+                          fit: BoxFit.contain,
                           errorBuilder: (context, error, stackTrace) => 
                               const Center(child: Icon(Icons.broken_image, size: 50, color: Colors.grey)),
                         );
@@ -105,6 +125,42 @@ class _RenterItemDetailState extends State<RenterItemDetail> {
                     ),
                   ),
                 ),
+                
+                // LEFT ARROW
+                if (_currentImageIndex > 0)
+                  Positioned(
+                    left: 10,
+                    child: GestureDetector(
+                      onTap: () => _movePage(-1),
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.8),
+                          shape: BoxShape.circle,
+                          boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 4)],
+                        ),
+                        child: const Icon(Icons.arrow_back_ios_new, size: 20, color: Colors.black87),
+                      ),
+                    ),
+                  ),
+
+                // RIGHT ARROW
+                if (_currentImageIndex < displayImages.length - 1)
+                  Positioned(
+                    right: 10,
+                    child: GestureDetector(
+                      onTap: () => _movePage(1),
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.8),
+                          shape: BoxShape.circle,
+                          boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 4)],
+                        ),
+                        child: const Icon(Icons.arrow_forward_ios, size: 20, color: Colors.black87),
+                      ),
+                    ),
+                  ),
                 
                 // Indicator
                 Positioned(
@@ -136,29 +192,29 @@ class _RenterItemDetailState extends State<RenterItemDetail> {
               child: Column(
                 children: [
                   Text(
-                    widget.item.name,
+                    currentItem.name, // Used currentItem
                     textAlign: TextAlign.center,
                     style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Color(0xFF101828)),
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    "RM ${priceVal.toStringAsFixed(0)} per day", // Use parsed price
+                    "RM ${priceVal.toStringAsFixed(0)} per day",
                     style: const TextStyle(fontSize: 16, color: Colors.grey),
                   ),
                   const SizedBox(height: 12),
-                  // Rating Row
+                  
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Icon(Icons.star, color: Colors.amber, size: 20),
                       const SizedBox(width: 4),
                       Text(
-                        "${widget.item.rating}", 
+                        "${currentItem.rating}", // Used currentItem
                         style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                       ),
                       const SizedBox(width: 8),
                       Text(
-                        "(0 Reviews)", // Hardcoded for now
+                        "(0 Reviews)", 
                         style: TextStyle(color: Colors.grey[400]),
                       ),
                     ],
@@ -178,7 +234,7 @@ class _RenterItemDetailState extends State<RenterItemDetail> {
             ),
             const SizedBox(height: 12),
             Text(
-              widget.item.description,
+              currentItem.description, // Used currentItem
               style: const TextStyle(fontSize: 14, color: Color(0xFF667085), height: 1.5),
             ),
             
@@ -190,11 +246,15 @@ class _RenterItemDetailState extends State<RenterItemDetail> {
                 Expanded(
                   child: OutlinedButton(
                     onPressed: () {
+                      final existingNotifier = Provider.of<ListingNotifier>(context, listen: false);
+                      
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          // Pass the ItemEntity to Edit Page
-                          builder: (context) => RenterEditItem(item: widget.item),
+                          builder: (context) => ChangeNotifierProvider.value(
+                            value: existingNotifier,
+                            child: RenterEditItem(item: currentItem),
+                          ),
                         ),
                       );
                     },

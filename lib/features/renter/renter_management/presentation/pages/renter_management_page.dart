@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import '../../../listing_management/presentation/widgets/renter_navbar.dart';
+import '../../../listing_management/presentation/pages/renter_listing_wrapper.dart';
+
 import 'renter_request_approval_page.dart';
 import 'renter_status_page.dart';
 import 'renter_availability_page.dart';
@@ -14,12 +17,34 @@ class _RenterManagementPageState extends State<RenterManagementPage>
     with SingleTickerProviderStateMixin {
   
   late TabController _tabController;
-  int _bottomNavIndex = 0;
+  
+  final int _bottomNavIndex = 1; 
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
+  }
+
+  void _onItemTapped(int index) {
+    if (index == _bottomNavIndex) return;
+
+    switch (index) {
+      case 0:
+        // Go to Listing
+        Navigator.pushReplacement(
+          context,
+          PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) => const RenterListingWrapper(),
+            transitionDuration: Duration.zero,
+            reverseTransitionDuration: Duration.zero,
+          ),
+        );
+        break;
+      case 1:
+
+        break;
+    }
   }
 
   @override
@@ -30,9 +55,9 @@ class _RenterManagementPageState extends State<RenterManagementPage>
         title: const Text("Renter Management"),
         bottom: TabBar(
           controller: _tabController,
-          labelColor: const Color(0xFF800000),
+          labelColor: const Color(0xFF5C001F), 
           unselectedLabelColor: Colors.grey,
-          indicatorColor: const Color(0xFF800000),
+          indicatorColor: const Color(0xFF5C001F),
           tabs: const [
             Tab(text: "Request Approval"),
             Tab(text: "Status"),
@@ -48,40 +73,10 @@ class _RenterManagementPageState extends State<RenterManagementPage>
           RenterAvailabilityPage(),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _bottomNavIndex,
-        selectedItemColor: const Color(0xFF800000),
-        unselectedItemColor: Colors.grey,
-        type: BottomNavigationBarType.fixed,
-        onTap: (index) {
-          setState(() {
-            _bottomNavIndex = index;
-          });
-          // Example:
-          // if(index == 1) Navigator.push(...);
-        },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: "Home",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite_border),
-            label: "Wishlist",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.qr_code_scanner),
-            label: "Scan",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.message_outlined),
-            label: "Message",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline),
-            label: "Account",
-          ),
-        ],
+      
+      bottomNavigationBar: RenterBottomNavBar(
+        selectedIndex: _bottomNavIndex,
+        onItemTapped: _onItemTapped,
       ),
     );
   }

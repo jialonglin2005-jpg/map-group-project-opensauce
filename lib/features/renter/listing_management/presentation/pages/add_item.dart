@@ -1,6 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+import '../../../renter_management/domain/entities/item_entity.dart';
+import '../../application/notifier/listing_notifier.dart';
 
 class RenterAddItem extends StatefulWidget {
   const RenterAddItem({super.key});
@@ -25,6 +28,8 @@ class _RenterAddItemState extends State<RenterAddItem> {
   final ImagePicker _picker = ImagePicker();
   
   int _currentImageIndex = 0; 
+  
+  final PageController _pageController = PageController();
 
   // --- IMAGE LOGIC ---
   Future<void> _pickImage(ImageSource source) async {
@@ -41,6 +46,12 @@ class _RenterAddItemState extends State<RenterAddItem> {
         setState(() {
           _selectedImages.add(File(pickedFile.path));
           _currentImageIndex = _selectedImages.length - 1;
+          // Jump to new image
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (_pageController.hasClients) {
+              _pageController.jumpToPage(_currentImageIndex);
+            }
+          });
         });
       }
     } catch (e) {
@@ -48,7 +59,6 @@ class _RenterAddItemState extends State<RenterAddItem> {
     }
   }
 
-  // --- NEW: DELETE LOGIC ---
   void _confirmDelete() {
     showDialog(
       context: context,
@@ -75,7 +85,6 @@ class _RenterAddItemState extends State<RenterAddItem> {
   void _deleteImage() {
     setState(() {
       _selectedImages.removeAt(_currentImageIndex);
-      
       if (_currentImageIndex >= _selectedImages.length && _currentImageIndex > 0) {
         _currentImageIndex = _selectedImages.length - 1;
       }
@@ -113,6 +122,60 @@ class _RenterAddItemState extends State<RenterAddItem> {
     );
   }
 
+  // --- MOVE ARROW HELPER ---
+  void _movePage(int delta) {
+    _pageController.animateToPage(
+      _currentImageIndex + delta,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+  }
+
+  void _saveItem() {
+    if (_nameController.text.isEmpty || 
+        _priceController.text.isEmpty || 
+        _depositController.text.isEmpty ||
+        _descriptionController.text.isEmpty ||
+        _locationController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Please fill in all fields")),
+      );
+      return;
+    }
+
+    if (_selectedImages.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Please upload at least 1 image")),
+      );
+      return;
+    }
+
+    String mainImage = _selectedImages[0].path;
+    List<String> additionalImages = [];
+    for (int i = 1; i < _selectedImages.length; i++) {
+      additionalImages.add(_selectedImages[i].path);
+    }
+
+    final newItem = ItemEntity(
+      id: DateTime.now().millisecondsSinceEpoch.toString(), 
+      name: _nameController.text,
+      price: _priceController.text,
+      deposit: _depositController.text,
+      description: _descriptionController.text,
+      location: _locationController.text,
+      category: _selectedCategory ?? "Other",
+      rentalInfo: "1 day | Total RM ${_priceController.text}",
+      imageUrl: mainImage,
+      additionalImages: additionalImages,
+      rating: 0.0,
+      status: "pending",
+    );
+
+    Provider.of<ListingNotifier>(context, listen: false).addItem(newItem);
+
+    Navigator.pop(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -133,9 +196,10 @@ class _RenterAddItemState extends State<RenterAddItem> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             
-            // --- 1. IMAGE CAROUSEL SECTION ---
+            // --- IMAGE CAROUSEL SECTION ---
             Center(
               child: Stack(
+                alignment: Alignment.center,
                 children: [
                   Container(
                     height: 250,
@@ -160,7 +224,7 @@ class _RenterAddItemState extends State<RenterAddItem> {
                             )
                           : PageView.builder(
                               itemCount: _selectedImages.length,
-                              controller: PageController(initialPage: _currentImageIndex), 
+                              controller: _pageController, // Attach Controller
                               onPageChanged: (index) {
                                 setState(() {
                                   _currentImageIndex = index;
@@ -176,6 +240,43 @@ class _RenterAddItemState extends State<RenterAddItem> {
                     ),
                   ),
 
+                  // LEFT ARROW
+                  if (_currentImageIndex > 0)
+                    Positioned(
+                      left: 10,
+                      child: GestureDetector(
+                        onTap: () => _movePage(-1),
+                        child: Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.8),
+                            shape: BoxShape.circle,
+                            boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 4)],
+                          ),
+                          child: const Icon(Icons.arrow_back_ios_new, size: 20, color: Colors.black87),
+                        ),
+                      ),
+                    ),
+
+                  // RIGHT ARROW
+                  if (_currentImageIndex < _selectedImages.length - 1)
+                    Positioned(
+                      right: 10,
+                      child: GestureDetector(
+                        onTap: () => _movePage(1),
+                        child: Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.8),
+                            shape: BoxShape.circle,
+                            boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 4)],
+                          ),
+                          child: const Icon(Icons.arrow_forward_ios, size: 20, color: Colors.black87),
+                        ),
+                      ),
+                    ),
+
+                  // INDICATOR
                   if (_selectedImages.isNotEmpty)
                     Positioned(
                       bottom: 16,
@@ -213,7 +314,7 @@ class _RenterAddItemState extends State<RenterAddItem> {
                     ),
                   ),
 
-                  // --- DELETE BUTTON ---
+                  // DELETE BUTTON
                   if (_selectedImages.isNotEmpty)
                     Positioned(
                       top: 16,
@@ -260,7 +361,7 @@ class _RenterAddItemState extends State<RenterAddItem> {
               children: [
                 Expanded(
                   child: OutlinedButton(
-                    onPressed: () {},
+                    onPressed: _saveItem,
                     style: OutlinedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       side: const BorderSide(color: Color(0xFF5C001F)),

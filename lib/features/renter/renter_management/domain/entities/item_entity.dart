@@ -7,6 +7,7 @@ class ItemEntity {
   final String status;
   
   // new
+  final String deposit;
   final String description;
   final String location;
   final String category;
@@ -21,6 +22,7 @@ class ItemEntity {
     required this.imageUrl,
     this.status = "pending",
     
+    this.deposit = "0",
     this.description = "",
     this.location = "",
     this.category = "Other",
@@ -35,6 +37,7 @@ class ItemEntity {
     String? rentalInfo,
     String? imageUrl,
     String? status,
+    String? deposit,
     String? description,
     String? location,
     String? category,
@@ -48,6 +51,7 @@ class ItemEntity {
       rentalInfo: rentalInfo ?? this.rentalInfo,
       imageUrl: imageUrl ?? this.imageUrl,
       status: status ?? this.status,
+      deposit: deposit ?? this.deposit,
       description: description ?? this.description,
       location: location ?? this.location,
       category: category ?? this.category,

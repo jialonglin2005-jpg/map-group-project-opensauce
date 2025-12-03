@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 import '../../../renter_management/domain/entities/item_entity.dart';
+import '../../application/notifier/listing_notifier.dart';
 
 class RenterEditItem extends StatefulWidget {
   final ItemEntity item;
@@ -28,6 +30,9 @@ class _RenterEditItemState extends State<RenterEditItem> {
   final ImagePicker _picker = ImagePicker();
   
   int _currentImageIndex = 0; 
+  
+  // ADDED PAGE CONTROLLER
+  final PageController _pageController = PageController();
 
   @override
   void initState() {
@@ -35,9 +40,7 @@ class _RenterEditItemState extends State<RenterEditItem> {
 
     _nameController = TextEditingController(text: widget.item.name);
     _priceController = TextEditingController(text: widget.item.price);
-
-    _depositController = TextEditingController(text: "20");
-    
+    _depositController = TextEditingController(text: widget.item.deposit); 
     _descriptionController = TextEditingController(text: widget.item.description);
     _locationController = TextEditingController(text: widget.item.location);
     
@@ -63,7 +66,7 @@ class _RenterEditItemState extends State<RenterEditItem> {
     super.dispose();
   }
 
-  // --- IMAGE LOGIC (Unchanged) ---
+  // --- IMAGE LOGIC ---
   Future<void> _pickImage(ImageSource source) async {
     if (_itemImages.length >= 5) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -78,6 +81,11 @@ class _RenterEditItemState extends State<RenterEditItem> {
         setState(() {
           _itemImages.add(File(pickedFile.path));
           _currentImageIndex = _itemImages.length - 1;
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (_pageController.hasClients) {
+              _pageController.jumpToPage(_currentImageIndex);
+            }
+          });
         });
       }
     } catch (e) {
@@ -148,6 +156,50 @@ class _RenterEditItemState extends State<RenterEditItem> {
     );
   }
 
+  void _movePage(int delta) {
+    _pageController.animateToPage(
+      _currentImageIndex + delta,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+  }
+
+  void _updateItem() {
+    if (_nameController.text.isEmpty || _priceController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Please fill in Name and Price")),
+      );
+      return;
+    }
+
+    String newMainImage = "";
+    List<String> newAdditionalImages = [];
+
+    if (_itemImages.isNotEmpty) {
+      final firstImg = _itemImages[0];
+      newMainImage = (firstImg is File) ? firstImg.path : firstImg as String;
+
+      for (int i = 1; i < _itemImages.length; i++) {
+        final img = _itemImages[i];
+        newAdditionalImages.add((img is File) ? img.path : img as String);
+      }
+    }
+
+    final updatedItem = widget.item.copyWith(
+      name: _nameController.text,
+      price: _priceController.text,
+      description: _descriptionController.text,
+      location: _locationController.text,
+      category: _selectedCategory,
+      imageUrl: newMainImage,
+      additionalImages: newAdditionalImages,
+    );
+
+    Provider.of<ListingNotifier>(context, listen: false).updateItem(updatedItem);
+
+    Navigator.pop(context); 
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -171,6 +223,7 @@ class _RenterEditItemState extends State<RenterEditItem> {
             // --- IMAGE CAROUSEL ---
             Center(
               child: Stack(
+                alignment: Alignment.center,
                 children: [
                   Container(
                     height: 250,
@@ -195,7 +248,7 @@ class _RenterEditItemState extends State<RenterEditItem> {
                             )
                           : PageView.builder(
                               itemCount: _itemImages.length,
-                              controller: PageController(initialPage: _currentImageIndex), 
+                              controller: _pageController, 
                               onPageChanged: (index) {
                                 setState(() {
                                   _currentImageIndex = index;
@@ -207,17 +260,61 @@ class _RenterEditItemState extends State<RenterEditItem> {
                                 if (image is File) {
                                   return Image.file(image, fit: BoxFit.cover);
                                 } else if (image is String) {
-                                  return Image.network(
-                                    image, 
-                                    fit: BoxFit.cover,
-                                    errorBuilder: (ctx, err, stack) => const Icon(Icons.broken_image),
-                                  );
+                                  if (image.startsWith('http')) {
+                                    return Image.network(
+                                      image, 
+                                      fit: BoxFit.cover,
+                                      errorBuilder: (ctx, err, stack) => const Icon(Icons.broken_image),
+                                    );
+                                  } else {
+                                    return Image.asset(
+                                      image, 
+                                      fit: BoxFit.cover,
+                                      errorBuilder: (ctx, err, stack) => const Icon(Icons.broken_image),
+                                    );
+                                  }
                                 }
                                 return const SizedBox();
                               },
                             ),
                     ),
                   ),
+
+                  //  LEFT ARROW
+                  if (_currentImageIndex > 0)
+                    Positioned(
+                      left: 10,
+                      child: GestureDetector(
+                        onTap: () => _movePage(-1),
+                        child: Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.8),
+                            shape: BoxShape.circle,
+                            boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 4)],
+                          ),
+                          child: const Icon(Icons.arrow_back_ios_new, size: 20, color: Colors.black87),
+                        ),
+                      ),
+                    ),
+
+                  // RIGHT ARROW
+                  if (_currentImageIndex < _itemImages.length - 1)
+                    Positioned(
+                      right: 10,
+                      child: GestureDetector(
+                        onTap: () => _movePage(1),
+                        child: Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.8),
+                            shape: BoxShape.circle,
+                            boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 4)],
+                          ),
+                          child: const Icon(Icons.arrow_forward_ios, size: 20, color: Colors.black87),
+                        ),
+                      ),
+                    ),
 
                   if (_itemImages.isNotEmpty)
                     Positioned(
@@ -271,6 +368,7 @@ class _RenterEditItemState extends State<RenterEditItem> {
                         ),
                       ),
                     ),
+
                 ],
               ),
             ),
@@ -297,10 +395,7 @@ class _RenterEditItemState extends State<RenterEditItem> {
               children: [
                 Expanded(
                   child: OutlinedButton(
-                    onPressed: () {
-                      // TODO: Call Notifier.updateItem()
-                      print("Updating Item: ${_nameController.text}");
-                    },
+                    onPressed: _updateItem,
                     style: OutlinedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       side: const BorderSide(color: Color(0xFF5C001F)),
@@ -331,7 +426,6 @@ class _RenterEditItemState extends State<RenterEditItem> {
     );
   }
 
-  // --- HELPER WIDGETS ---
   Widget _buildLabel(String text) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0, top: 12.0),
