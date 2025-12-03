@@ -1,5 +1,5 @@
+import 'package:easyrent/features/rentee/data/dummy.dart';
 import 'package:flutter/material.dart';
-import '../../../data/dummy.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({super.key});

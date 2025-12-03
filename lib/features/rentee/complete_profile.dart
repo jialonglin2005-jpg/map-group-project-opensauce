@@ -1,10 +1,5 @@
-// <<<<<<<< HEAD:lib/features/rentee/rentee_profile/presentation/pages/complete_profile.dart
-import 'package:easyrent/features/rentee/rentee_profile/presentation/pages/profile_page.dart';
-// ========
-// import 'package:easyrent/features/rentee/profile_page.dart';
-// >>>>>>>> origin/rentee_home_page:lib/features/rentee/complete_profile.dart
-// import 'package:flutter/material.dart';
-import '../../../data/dummy.dart';
+import 'package:easyrent/features/rentee/data/dummy.dart';
+import 'package:easyrent/features/rentee/profile_page.dart';
 import 'package:flutter/material.dart';
 
 class CompleteProfilePage extends StatefulWidget {

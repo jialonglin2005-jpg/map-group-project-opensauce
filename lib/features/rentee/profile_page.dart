@@ -1,15 +1,7 @@
-// <<<<<<<< HEAD:lib/features/rentee/rentee_profile/presentation/pages/profile_page.dart
 import 'package:easyrent/features/account/auth/login_page.dart';
 import 'package:easyrent/features/account/registration/renter_registration.dart';
-import '../../../data/dummy.dart';
-import '../../../presentation/widgets/rentee_bottom_navbar.dart';
-// ========
-// import 'package:easyrent/account/registration/renter_registration.dart';
-import 'package:easyrent/features/rentee/complete_profile.dart';
-import '../../../data/dummy.dart';
-// import 'homePage/rentee_bottom_navbar.dart';
-// >>>>>>>> origin/rentee_home_page:lib/features/rentee/profile_page.dart
-import 'my_profile_page.dart';
+import 'package:easyrent/features/rentee/data/dummy.dart';
+import 'package:easyrent/features/rentee/my_profile_page.dart';
 import 'package:flutter/material.dart';
 
 // rentee profile page (Zhen Yang)
@@ -186,14 +178,14 @@ class _RenteeprofilePageState extends State<RenteeprofilePage> {
       ),
 
 // <<<<<<<< HEAD:lib/features/rentee/rentee_profile/presentation/pages/profile_page.dart
-//       bottomNavigationBar: RenteeBottomNavBar(),
-// ========
+      bottomNavigationBar: RenteeBottomNavBar(),
+========
       //BOTTOM NAVIGATION BAR
       bottomNavigationBar: NavbarWidget(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
       ),
-// >>>>>>>> origin/rentee_home_page:lib/features/rentee/profile_page.dart
+>>>>>>>> origin/rentee_home_page:lib/features/rentee/profile_page.dart
     );
   }
 }
