@@ -1,3 +1,4 @@
+import 'package:easyrent/features/rentee/checkout/presentation/pages/checkout_page.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../data/dummy_data.dart';
@@ -226,6 +227,9 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                     _pickDateRange();
                   } else {
                     // Proceed to checkout logic
+                    Navigator.push(context, MaterialPageRoute(builder: (context) {
+                      return CheckoutPage();
+                    },));
                   }
                 },
                 style: ElevatedButton.styleFrom(

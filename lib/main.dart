@@ -1,3 +1,6 @@
+import 'package:easyrent/features/rentee/application/notifiers.dart';
+import 'package:easyrent/features/rentee/rentee_profile/presentation/pages/my_profile_page.dart';
+import 'package:easyrent/features/rentee/wishlist/presentation/page/wishlist_page.dart';
 import 'package:flutter/material.dart';
 import 'features/rentee/homePage/home_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,8 +16,16 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => _MyAppState();
 }
 
+
+
 class _MyAppState extends State<MyApp> {
   @override
+  final List<Widget> _pages = [
+    // Replace these with your actual screen widgets:
+    HomePage(),
+    WishlistPage(),
+
+  ];
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -24,7 +35,15 @@ class _MyAppState extends State<MyApp> {
         primarySwatch: Colors.amber,
         fontFamily: 'Roboto',
       ),
-      home: const HomePage(),
+      home: ValueListenableBuilder(valueListenable: selectedPageNotifiers, builder: (context, value, child) {
+        if(value == 0){
+            return HomePage();
+        } else if(value ==1) {
+          return WishlistPage();
+        } else {
+          return MyProfilePage();
+        }
+      },),
     );
   }
 }

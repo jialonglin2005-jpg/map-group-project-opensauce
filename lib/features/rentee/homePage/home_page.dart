@@ -1,3 +1,5 @@
+import 'package:easyrent/features/rentee/presentation/widgets/rentee_bottom_navbar.dart';
+import 'package:easyrent/features/rentee/renting_status/presentation/pages/renting_status_page.dart';
 import 'package:flutter/material.dart';
 import 'rentee_bottom_navbar.dart';
 import 'list_widget.dart';
@@ -18,6 +20,8 @@ class _HomePageState extends State<HomePage> {
       _selectedIndex = index;
     });
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -62,10 +66,11 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      bottomNavigationBar: NavbarWidget(
-        currentIndex: _selectedIndex,
-        onTap: _onNavTapped,
-      ),
+      // bottomNavigationBar: NavbarWidget(
+      //   currentIndex: _selectedIndex,
+      //   onTap: _onNavTapped,
+      // ),
+      bottomNavigationBar: RenteeBottomNavBar()
     );
   }
 }
@@ -100,14 +105,14 @@ class _CustomAppBarState extends State<CustomAppBar> {
             ),
       ),
       actions: [
-        _circleBtn(Icons.inventory_2_outlined),
-        _circleBtn(Icons.notifications_none),
+        _circleBtn(Icons.inventory_2_outlined,"shopping_cart"),
+        _circleBtn(Icons.notifications_none,"notifications"),
         const SizedBox(width: 15),
       ],
     );
   }
 
-  Widget _circleBtn(IconData icon) {
+  Widget _circleBtn(IconData icon,String title) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 5),
       decoration: const BoxDecoration(
@@ -115,7 +120,15 @@ class _CustomAppBarState extends State<CustomAppBar> {
         shape: BoxShape.circle,
       ),
       child: IconButton(
-        onPressed: () {},
+        onPressed: () {
+          if(title == 'shopping_cart') {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return RentingStatusPage();
+              },));
+          } else if (title == 'notifications') {
+              null;
+          }
+        },
         icon: Icon(icon, color: const Color(0xFF5C001F)),
       ),
     );

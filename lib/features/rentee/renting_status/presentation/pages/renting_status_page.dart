@@ -46,7 +46,7 @@ class _RentingStatusPageState extends ConsumerState<RentingStatusPage>
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
           onPressed: () {
-            // Add navigation logic here
+            Navigator.pop(context);
           },
         ),
 
