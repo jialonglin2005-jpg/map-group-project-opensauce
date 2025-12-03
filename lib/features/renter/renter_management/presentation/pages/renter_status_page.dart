@@ -33,6 +33,14 @@ class _RenterStatusPageState extends State<RenterStatusPage> {
 
                 const SizedBox(height: 10),
 
+                const Text(
+                  "RM 20/ day | 2 days | Total: RM 40",
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                ),
+                
+                const SizedBox(height: 8),
+
+
                 // Status row: badge + Stop Rent button
                 Row(
                   children: [
