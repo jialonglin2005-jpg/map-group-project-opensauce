@@ -85,13 +85,15 @@ class _RentalItemCardWidgetState extends State<RentalItemCardWidget> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                       Text(
-                        widget.item['product_name'],
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
+                       Expanded(
+                         child: Text(
+                          widget.item['product_name'],
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                                               ),
+                       ),
                       // Item Count (2 Pcs)
                       Text(
                         '${widget.item['quantity']} Pcs',
@@ -116,7 +118,11 @@ class _RentalItemCardWidgetState extends State<RentalItemCardWidget> {
                         'RM ${widget.item['price_per_day']} / day',
                         style: TextStyle(color: Colors.grey[600], fontSize: 13),
                       ),
-                      const SizedBox(width: 10,),
+                    ],
+                  ),
+                  const SizedBox(height: 10,),
+                  Row(
+                    children: [
                         SizedBox(
                         height: 28,
                         // 1. Replace OutlinedButton with a Container to hold the styling.

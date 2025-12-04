@@ -36,41 +36,35 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage> {
         centerTitle: true,
       ),
       backgroundColor: Colors.grey[50], // Light background for the page
-      body: Column(
+      body: Stack(              
         children: [
-          // --- Corrected Section: Wrap the Stack with Expanded ---
-          Expanded(
-            child: Stack(
-              children: [
-                ref.watch(checkoutProvider).items.isEmpty
-                    ? Center(
-                      // We can use a SizedBox inside Center to ensure it takes up the full available Expanded space
-                      child: SizedBox.expand(
-                        child: Center(
-                          child: Text(
-                            'Your cart is empty!',
-                            style: Theme.of(context).textTheme.titleLarge
-                                ?.copyWith(color: Colors.grey[600]),
-                          ),
-                        ),
-                      ),
-                    )
-                    : ListView.builder(
-                      // The ListView now correctly uses the height provided by Expanded
-                      itemCount: ref.watch(checkoutProvider).items.length,
-                      itemBuilder: (context, index) {
-                        return CheckoutCartWidget(
-                          item: ref.watch(checkoutProvider).items[index],
-                          // onRemove: () => _onRemoveItem(item['id']),
-                          // onQuantityChanged: (newQuantity) => _onQuantityChanged(item['id'], newQuantity),
-                        );
-                      },
+          ref.watch(checkoutProvider).items.isEmpty
+              ? Center(
+                // We can use a SizedBox inside Center to ensure it takes up the full available Expanded space
+                child: SizedBox.expand(
+                  child: Center(
+                    child: Text(
+                      'Your cart is empty!',
+                      style: Theme.of(context).textTheme.titleLarge
+                          ?.copyWith(color: Colors.grey[600]),
                     ),
-              ],
-            ),
-          ),
+                  ),
+                ),
+              )
+              : ListView.builder(
+                // The ListView now correctly uses the height provided by Expanded
+                padding: const EdgeInsets.all(8.0),
+                itemCount: ref.watch(checkoutProvider).items.length,
+                itemBuilder: (context, index) {
+                  return CheckoutCartWidget(
+                    item: ref.watch(checkoutProvider).items[index],
+                    // onRemove: () => _onRemoveItem(item['id']),
+                    // onQuantityChanged: (newQuantity) => _onQuantityChanged(item['id'], newQuantity),
+                  );
+                },
+              ),
+              // This is a DragablleScrollSheet
             BottomSummaryWidget(),
-          // --------------------------------------------------------
         ],
       ),
       // The bottom navigation bar from your design

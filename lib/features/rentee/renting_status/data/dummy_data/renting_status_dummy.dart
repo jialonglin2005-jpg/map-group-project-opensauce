@@ -335,7 +335,7 @@ const List<Map<String, dynamic>> userOrderHistory = [
   // --- Dummy Data Entry 5: Reviewed Item, Long Rental ---
   {
     "id": "HST_005",
-    "product_name": "Professional DSLR Lens (50mm)",
+    "product_name": "Professional DSLR Lens",
     "price_per_day": 30.00,
     "imageUrl": "https://m.media-amazon.com/images/I/61pKMIi0AfL._AC_SL1500_.jpg",
     "finalTotalPrice": 300.00,

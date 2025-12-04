@@ -104,31 +104,31 @@ class _HistoryItemCardWidgetsState extends ConsumerState<HistoryItemCardWidgets>
                         style: TextStyle(color: Colors.grey[600], fontSize: 13),
                       ),
                       const SizedBox(width: 10,),
-                        SizedBox(
-                        height: 28,
-                        // 1. Replace OutlinedButton with a Container to hold the styling.
-                        child: Container(
-                          // 2. Apply styling equivalent to OutlinedButton.styleFrom:
-                          padding: const EdgeInsets.symmetric(horizontal: 10), // Padding
-                          decoration: BoxDecoration(
-                            color: Colors.transparent, // Background color (optional, but good practice)
-                            border: Border.all(color: Colors.grey[400]!), // BorderSide (Outline)
-                            borderRadius: BorderRadius.circular(4), // Shape
-                          ),
-                          alignment: Alignment.center, // Center the text vertically within the container
-                          // 3. Place the Text widget inside the Container.
-                          child: Text(
-                            widget.item['paymentMethod'],
-                            style: TextStyle(
-                              fontSize: 12, 
-                              color: Colors.black,
-                              // Optional: Ensure text height aligns well with the 28px height constraint
-                              // height: 1.0, 
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 10,),
+                      //   SizedBox(
+                      //   height: 28,
+                      //   // 1. Replace OutlinedButton with a Container to hold the styling.
+                      //   child: Container(
+                      //     // 2. Apply styling equivalent to OutlinedButton.styleFrom:
+                      //     padding: const EdgeInsets.symmetric(horizontal: 10), // Padding
+                      //     decoration: BoxDecoration(
+                      //       color: Colors.transparent, // Background color (optional, but good practice)
+                      //       border: Border.all(color: Colors.grey[400]!), // BorderSide (Outline)
+                      //       borderRadius: BorderRadius.circular(4), // Shape
+                      //     ),
+                      //     alignment: Alignment.center, // Center the text vertically within the container
+                      //     // 3. Place the Text widget inside the Container.
+                      //     child: Text(
+                      //       widget.item['paymentMethod'],
+                      //       style: TextStyle(
+                      //         fontSize: 12, 
+                      //         color: Colors.black,
+                      //         // Optional: Ensure text height aligns well with the 28px height constraint
+                      //         // height: 1.0, 
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
+                      // const SizedBox(width: 5,),
                         SizedBox(
                         height: 28,
                         // 1. Replace OutlinedButton with a Container to hold the styling.
@@ -177,7 +177,7 @@ class _HistoryItemCardWidgetsState extends ConsumerState<HistoryItemCardWidgets>
                         const SizedBox(height: 4),
                         // Buttons
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             
                             SizedBox(

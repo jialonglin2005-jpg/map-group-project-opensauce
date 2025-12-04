@@ -83,13 +83,15 @@ class _InrentingItemCardWidgetState extends State<InrentingItemCardWidget> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                       Text(
-                        widget.item['product_name'],
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
+                       Expanded(
+                         child: Text(
+                          widget.item['product_name'],
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                                               ),
+                       ),
                       // Days Remaining
                       Text(
                         '${widget.item['daysRemaining']} days',
@@ -115,7 +117,12 @@ class _InrentingItemCardWidgetState extends State<InrentingItemCardWidget> {
                         style: TextStyle(color: Colors.grey[600], fontSize: 13),
                       ),
                       const SizedBox(width: 10,),
-                        SizedBox(
+                    ],
+                  ),
+                  const SizedBox(height: 10,),
+                  Row(
+                    children: [
+                      SizedBox(
                         height: 28,
                         // 1. Replace OutlinedButton with a Container to hold the styling.
                         child: Container(
@@ -217,8 +224,7 @@ class _InrentingItemCardWidgetState extends State<InrentingItemCardWidget> {
                             // Report Button (Red)
                             SizedBox(
                               height: 28,
-                              child: ReportItemWidget(onSubmitReport: _handleReportSubmission, item: widget.item)
-                                                       
+                              child: ReportItemWidget(onSubmitReport: _handleReportSubmission, item: widget.item)                                                    
                             ),
                           ],
                         ),

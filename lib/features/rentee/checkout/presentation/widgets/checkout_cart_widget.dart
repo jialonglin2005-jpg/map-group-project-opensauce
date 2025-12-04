@@ -34,7 +34,7 @@ class _CheckoutCartWidgetState extends ConsumerState<CheckoutCartWidget> {
     // Helper function to create the quantity controls
     Widget buildQuantityControl() {
       return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+        // padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
         decoration: BoxDecoration(
           border: Border.all(color: Colors.grey.shade300),
           borderRadius: BorderRadius.circular(4),
@@ -52,12 +52,12 @@ class _CheckoutCartWidgetState extends ConsumerState<CheckoutCartWidget> {
               padding: EdgeInsets.zero,
               constraints: const BoxConstraints(),
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: 4),
             Text(
               ref.watch(checkoutProvider.notifier).getItemQuantity(id).toString(),
               style: const TextStyle(fontSize: 14),
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: 4),
             IconButton(
               onPressed: () {
                 ref.read(checkoutProvider.notifier).incrementItemQuantity(widget.item['id']);
@@ -115,11 +115,14 @@ class _CheckoutCartWidgetState extends ConsumerState<CheckoutCartWidget> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      widget.item['product_name'],
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
+                    Expanded(
+                      child: Text(
+                        widget.item['product_name'],
+                        style: const TextStyle(
+                          overflow: TextOverflow.clip,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
                       ),
                     ),
                       IconButton(

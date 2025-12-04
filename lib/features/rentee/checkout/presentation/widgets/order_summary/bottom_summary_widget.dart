@@ -2,6 +2,8 @@ import 'package:easyrent/core/constants/constants.dart';
 import 'package:easyrent/features/rentee/checkout/data/checkout_dummy_data.dart';
 import 'package:easyrent/features/rentee/checkout/data/provider/checkout_provider.dart';
 import 'package:easyrent/features/rentee/checkout/presentation/widgets/order_summary/delivery_options_widget.dart';
+import 'package:easyrent/features/rentee/checkout/presentation/widgets/order_summary/delivery_place_widget.dart';
+import 'package:easyrent/features/rentee/checkout/presentation/widgets/order_summary/start_end_date_widget.dart';
 import 'package:easyrent/features/rentee/checkout/presentation/widgets/order_summary/summary_row_widget.dart';
 import 'package:easyrent/features/rentee/checkout/presentation/widgets/order_summary/total_section_widget.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +37,14 @@ class _BottomSummaryWidgetState extends ConsumerState<BottomSummaryWidget> {
   @override
   Widget build(BuildContext context) {
     final checkoutState = ref.read(checkoutProvider.notifier);
-    return Container(
+    String? selectedPaymentMethod;
+    return DraggableScrollableSheet(
+      initialChildSize: 0.3,
+      minChildSize: 0.25,
+      maxChildSize: 0.8,
+      expand: true,
+      snap: false,
+      builder: (context, scrollController) =>  Container(
       padding: const EdgeInsets.all(20.0),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -48,8 +57,9 @@ class _BottomSummaryWidgetState extends ConsumerState<BottomSummaryWidget> {
           ),
         ],
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
+      child: ListView(
+        padding: EdgeInsets.all(2),
+        controller: scrollController,
         children: [
           Text(
             'Order Summary',
@@ -68,7 +78,48 @@ class _BottomSummaryWidgetState extends ConsumerState<BottomSummaryWidget> {
             title: 'Item Deposit',
             amount: 'RM ${checkoutState.getRenteeFee() * 50 / 100}',
           ),
+          StartEndDateWidget(),
+          const SizedBox(height: 20),
           DeliveryOptionsWidget(),
+          const SizedBox(height: 20),
+          DeliveryPlaceWidget(),
+          const SizedBox(height: 20),   
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                "Choose a payment method",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+
+              DropdownButton<String>(
+                value: selectedPaymentMethod,
+                hint: const Text("Select"),
+                items: const [
+                  DropdownMenuItem(
+                    value: 'cash',
+                    child: Text("Cash"),
+                  ),
+                  DropdownMenuItem(
+                    value: 'fpx',
+                    child: Text("FPX"),
+                  ),
+                  DropdownMenuItem(
+                    value: 'card',
+                    child: Text("Card"),
+                  ),
+                ],
+                onChanged: (value) {
+                  setState(() {
+                    selectedPaymentMethod = value;
+                  });
+                },
+              ),
+            ],
+          ),
           const SizedBox(height: 20),
           TotalSectionWidget(),
           const SizedBox(height: 20),
@@ -98,6 +149,7 @@ class _BottomSummaryWidgetState extends ConsumerState<BottomSummaryWidget> {
           ),
         ],
       ),
+    )
     );
   }
 }

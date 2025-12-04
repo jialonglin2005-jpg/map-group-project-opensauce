@@ -1,7 +1,6 @@
 import 'package:easyrent/features/rentee/presentation/widgets/rentee_bottom_navbar.dart';
 import 'package:easyrent/features/rentee/renting_status/presentation/pages/renting_status_page.dart';
 import 'package:flutter/material.dart';
-import 'rentee_bottom_navbar.dart';
 import 'list_widget.dart';
 import '../searchPage/search_page.dart';
 

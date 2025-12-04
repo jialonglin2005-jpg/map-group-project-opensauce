@@ -29,7 +29,7 @@ class _WishlistPageState extends ConsumerState<WishlistPage> {
               onPressed: () {},
             ),
             title: const Text(
-              'Shopping Cart',
+              'Wishlist',
               style: KTextStyle.appBarTitle,
             ),
             centerTitle: true,
@@ -40,7 +40,7 @@ class _WishlistPageState extends ConsumerState<WishlistPage> {
             children: [
               Positioned.fill(
                 child: ListView.builder(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(8.0),
                   itemCount: cartState.items.length,
                   itemBuilder: (context, index) {
                     return WishlistCard(item: cartState.items[index]);
